@@ -1,5 +1,5 @@
 '''
-    Autores: 
+    Autores: Iago, Francilândio, Vanessa, Raniery, Sávio, Iális e Fischer
     Data: 09/11/2023
     Descrição:
         - Implementa funções para leitura das imagens

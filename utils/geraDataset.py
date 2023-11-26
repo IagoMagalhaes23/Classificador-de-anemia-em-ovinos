@@ -1,8 +1,11 @@
 '''
-    Autores: 
+    Autores: Iago, Francilândio, Vanessa, Raniery, Sávio, Iális e Fischer
     Data: 09/11/2023
     Descrição:
-        - 
+        - Realiza a leitura do dataset original
+        - Recorta e extrai a ROI da imagem
+        - Redimensiona as imagens
+        - Rotula as imagens
 '''
 
 import os
