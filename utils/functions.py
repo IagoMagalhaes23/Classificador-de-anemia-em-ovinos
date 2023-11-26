@@ -3,6 +3,7 @@
     Data: 09/11/2023
     Descrição:
         - Implementa funções para leitura das imagens
+        - Calcula métricas de avalição
         - Plotagem dos gráficos de treinamento
         - Plotagem da matriz de confusão
 '''
@@ -124,6 +125,29 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix', cmap=None,
     plt.ylabel('Classificação correta', fontsize=20)
     plt.xlabel('Predição', fontsize=20)
     plt.show()
+
+def iou(caixa1, caixa2):
+    '''
+        Função para calculo da métrica IoU
+        :param caixa1: variavel com o valor de bound box real
+        :param caixa2: variavel com o valor de bound box previsto pelo modelo
+        :return: retorna o valor de IoU
+    '''
+    x1_intersecao = max(caixa1[0], caixa2[0])
+    y1_intersecao = max(caixa1[1], caixa2[1])
+    x2_intersecao = min(caixa1[2], caixa2[2])
+    y2_intersecao = min(caixa1[3], caixa2[3])
+
+    area_intersecao = max(0, x2_intersecao - x1_intersecao + 1) * max(0, y2_intersecao - y1_intersecao + 1)
+
+    area_caixa1 = (caixa1[2] - caixa1[0] + 1) * (caixa1[3] - caixa1[1] + 1)
+    area_caixa2 = (caixa2[2] - caixa2[0] + 1) * (caixa2[3] - caixa2[1] + 1)
+
+    area_uniao = area_caixa1 + area_caixa2 - area_intersecao
+
+    iou = area_intersecao / area_uniao
+
+    return iou
 
 def roc_curve(fprenb0, tprenb0, roc_aucENB0, fprvgg, tprvgg, roc_aucVGG, fpru, tpru, roc_aucU, fprenm, tprenm, roc_aucENM):
     '''
