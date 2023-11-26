@@ -19,7 +19,8 @@ from time import time_ns
 import matplotlib.pyplot as plt
 plt.style.use('default')
 
-from keras.preprocessing import image
+from tensorflow.keras.preprocessing import image as image_utils
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, roc_curve, auc
 
 def readFiles(caminhos):
@@ -180,3 +181,26 @@ def roc_curve(fprenb0, tprenb0, roc_aucENB0, fprvgg, tprvgg, roc_aucVGG, fpru, t
     plt.title('Curva ROC para dados de validação')
     plt.legend(loc="lower right")
     plt.show()
+
+def show_image(image_path):
+    '''
+        Função para plotar imagem
+        :param image_path: recebe o enderenço de uma imagem
+    '''
+    image = cv2.imread(image_path)
+    plt.imshow(image)
+
+def make_predictions(image_path, model):
+    '''
+        Função para realizar predições com o modelo treinado
+        :param image_path: recebe o enderenço de uma imagem
+        :param model: recebe o modelo treinado
+        :return: retorna as predições realizada pelo modelo
+    '''
+    show_image(image_path)
+    image = image_utils.load_img(image_path, target_size=(224, 224))
+    image = image_utils.img_to_array(image)
+    image = image.reshape(1,224,224,3)
+    image = preprocess_input(image)
+    preds = model.predict(image)
+    return preds
