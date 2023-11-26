@@ -3,7 +3,6 @@
     Data: 09/11/2023
     Descrição:
         - Implementa funções para leitura das imagens
-        - Composição do dataset para treino, teste e validação
         - Plotagem dos gráficos de treinamento
         - Plotagem da matriz de confusão
 '''
@@ -38,32 +37,6 @@ def readFiles(caminhos):
             data_list.append([os.path.join(cam, file), file[-5]])
 
     return data_list
-
-def compose_dataset(df, size, filtro):
-    '''
-        Função para compor o dataset de treino, teste e validação
-        :param df: recebe um dataframe com o endereço da imagem e seu label
-        :param size: tamanho da imagem final
-        :param filtro: defini qual filtro será aplicado na imagem
-        :return: retorna dois np.arrays com a imagem e o label
-    '''
-    data = []
-    labels = []
-
-    for img_path, label in df.values:
-        data.append(filtros(img_path, size, filtro))
-        if label == 'A':
-            labels.append(0)
-        elif label == 'B':
-            labels.append(1)
-        elif label == 'C':
-            labels.append(2)
-        elif label == 'D':
-            labels.append(3)
-        elif label == 'E':
-            labels.append(4)
-
-    return np.array(data), np.array(labels)
 
 def plot_hist(history):
     '''
