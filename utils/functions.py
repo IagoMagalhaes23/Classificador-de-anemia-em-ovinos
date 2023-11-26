@@ -75,17 +75,17 @@ def plot_hist(history):
     plt.plot(history.history['accuracy'])
     plt.plot(history.history['val_accuracy'])
     plt.ylim(0.8,1)
-    plt.title('Model Accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
-    plt.legend(['train','valid'], loc='lower right')
+    plt.title('Acurácia do modelo')
+    plt.ylabel('acurácia')
+    plt.xlabel('épocas')
+    plt.legend(['treino','validação'], loc='lower right')
     plt.subplot(2,2,2)
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
-    plt.title('Loss Function')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train','valid'], loc='upper right')
+    plt.title('Função de perda')
+    plt.ylabel('perda')
+    plt.xlabel('épocas')
+    plt.legend(['treino','validação'], loc='upper right')
     plt.ylim([0,1])
 
 def metrics(y_actual, y_pred):
@@ -95,17 +95,17 @@ def metrics(y_actual, y_pred):
         :param y_pred: valor predito pelo modelo
         :return: retorna o valor de acurácia, precisão, sensibilidade, fpr, tpr, roc_auc
     '''
-    accuracy = accuracy_score(y_actual, y_pred)
+    acuracia = accuracy_score(y_actual, y_pred)
     precisao = precision_score(y_actual, y_pred, average='macro')
     sensibilidade = recall_score(y_actual, y_pred, average='macro')
     fpr, tpr, _ = roc_curve(y_actual, y_pred)
     roc_auc = auc(fpr, tpr)
     print('------------------------------------')
-    print('Acurácia:%.3f' %accuracy)
+    print('Acurácia:%.3f' %acuracia)
     print('Precisão:%.3f' %precisao)
     print('Sensibilidade:%.3f' %sensibilidade)
     print('------------------------------------')
-    return accuracy, precisao, sensibilidade, fpr, tpr, roc_auc
+    return acuracia, precisao, sensibilidade, fpr, tpr, roc_auc
 
 def plot_confusion_matrix(cm, target_names, title='Confusion matrix', cmap=None, normalize=True):
     '''
@@ -152,20 +152,34 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix', cmap=None,
     plt.xlabel('Predição', fontsize=20)
     plt.show()
 
-def roc_curve():
+def roc_curve(fprenb0, tprenb0, roc_aucENB0, fprvgg, tprvgg, roc_aucVGG, fpru, tpru, roc_aucU, fprenm, tprenm, roc_aucENM):
     '''
         Função para plotagem da curva roc
+        :param fprenb0:
+        :param tprenb0:
+        :param roc_aucENB0:
+        :param fprvgg:
+        :param tprvgg:
+        :param roc_aucVGG:
+        :param fpru:
+        :param tpru:
+        :param roc_aucU:
+        :param fprenm:
+        :param tprenm:
+        :param roc_aucENM:
+        :return: retorna o gráfico da curva ROC
     '''
-    # plt.figure()
-    # lw = 2
-    # plt.plot(acfpr, actpr, color='darkred',
-    #         lw=lw, label='CNN-IF + dropout - ROC curve (area = %0.2f)' % acroc_auc)
-    # plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
-    # plt.xlim([0.0, 1.0])
-    # plt.ylim([0.0, 1.05])
-    # plt.xlabel('False Positive Rate')
-    # plt.ylabel('True Positive Rate')
-    # plt.title('ROC curve of test data without diaphragm')
-    # plt.legend(loc="lower right")
-    # plt.show()
-    print('Tu ainda precisa fazer essa função')
+    plt.figure()
+    lw = 2
+    plt.plot(fprenb0, tprenb0, color='darkred', lw=lw, label='EfficientNetB0 - curva ROC (área = %0.2f)' % roc_aucENB0)
+    plt.plot(fprvgg, tprvgg, color='darkgreen', lw=lw, label='VGGNet16 - curva ROC (área = %0.2f)' % roc_aucVGG)
+    plt.plot(fpru, tpru, color='darkblue', lw=lw, label='UNet++ - curva ROC (área = %0.2f)' % roc_aucU)
+    plt.plot(fprenm, tprenm, color='darkorange', lw=lw, label='EfficientNetModificada - curva ROC (área = %0.2f)' % roc_aucENM)
+    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('Taxa de falso positivo')
+    plt.ylabel('Taxa de verdadeiro positivo')
+    plt.title('Curva ROC para dados de validação')
+    plt.legend(loc="lower right")
+    plt.show()
