@@ -11,35 +11,25 @@
 import os
 import cv2
 
-from utils import dataset
+import dataset
 
-caminhos = 'dataset/original'
+caminhos = 'C:/Users/iagom/OneDrive/Desktop/Mestrado/Projeto ovelhas/Doenca Parasitaria.v1i.yolov5pytorch/Doenca Parasitaria.v1i.voc'
 
 for caminho, _, arquivo in os.walk(caminhos):
     caminho = str(caminho.replace("\\", "/"))
     positions = []
     cont = 0
-    if(caminho == 'dataset/original/valid'):
+    if(caminho == 'C:/Users/iagom/OneDrive/Desktop/Mestrado/Projeto ovelhas/Doenca Parasitaria.v1i.yolov5pytorch/Doenca Parasitaria.v1i.voc/valid'):
         for file in arquivo:
             if(file[-3:-1] == 'xm'):
                 positions = dataset.readXML(caminho + '/' + file)
-                classe = dataset.getClass(caminho + '/' + file)
                 image = cv2.imread(os.path.join(caminho + '/' + file[:-3] + 'jpg'))
-                dataset.cropImage(image, positions, 'dataset/recortado/valid/', cont, classe)
+                dataset.cropImage(image, positions, 'dataset/test/Mucosa', cont)
                 cont += 1
-    if(caminho == 'dataset/original/test'):
+    if(caminho == 'C:/Users/iagom/OneDrive/Desktop/Mestrado/Projeto ovelhas/Doenca Parasitaria.v1i.yolov5pytorch/Doenca Parasitaria.v1i.voc/train'):
         for file in arquivo:
             if(file[-3:-1] == 'xm'):
                 positions = dataset.readXML(caminho + '/' + file)
-                classe = dataset.getClass(caminho + '/' + file)
                 image = cv2.imread(os.path.join(caminho + '/' + file[:-3] + 'jpg'))
-                dataset.cropImage(image, positions, 'dataset/recortado/test/', cont, classe)
-                cont += 1
-    if(caminho == 'dataset/original/train'):
-        for file in arquivo:
-            if(file[-3:-1] == 'xm'):
-                positions = dataset.readXML(caminho + '/' + file)
-                classe = dataset.getClass(caminho + '/' + file)
-                image = cv2.imread(os.path.join(caminho + '/' + file[:-3] + 'jpg'))
-                dataset.cropImage(image, positions, 'dataset/recortado/train/', cont, classe)
+                dataset.cropImage(image, positions, 'dataset/train/Mucosa', cont)
                 cont += 1
