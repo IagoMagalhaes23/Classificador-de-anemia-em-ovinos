@@ -31,28 +31,6 @@ def readXML(file):
     
     return results
 
-def getClass(file):
-    '''
-        Função para ler arquivos XML e pegar o valor da classe
-        :param file: recebe o endereço do arquivo
-        :return: retorna uma lista com o valor da classe
-    '''
-    with open(file, 'r') as f:
-        data = f.read()
-
-    Bs_data = BeautifulSoup(data, "xml")
-    box = Bs_data.find_all('object')
-
-    results = []
-
-    for name in box:
-        results.append(name.text)
-    
-    string = results[0].split("\n")
-    # print(string[1])
-
-    return string[1]
-
 def cropImage(image, positions, caminho, name):
     '''
         Função para recortar a mucosa da imagem original

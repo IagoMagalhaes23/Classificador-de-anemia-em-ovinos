@@ -10,9 +10,7 @@
 
 import os
 import cv2
-import psutil
 import itertools
-import tracemalloc
 import numpy as np
 import pandas as pd
 from time import time_ns
@@ -29,16 +27,37 @@ def readFiles(caminhos):
         :param caminhos: caminho dos arquivos de imagem
         :return: retorna uma lista com o endereço e nome da imagem e a respectiva classe
     '''
-    cont = 0
     data_list = []
 
     for caminho, _, arquivo in os.walk(caminhos):
         cam = str(caminho.replace("\\", "/"))+"/"
         for file in arquivo:
-            # print(file[-5])
-            data_list.append([os.path.join(cam, file), file[-5]])
+            coordernadas = file.split('.')
+            boundbox = coordernadas[0].split('_')
+            x = boundbox[1]
+            y = boundbox[2]
+            w = boundbox[3]
+            h = boundbox[4]
+            # print(x,y,w,h)
+            data_list.append([os.path.join(cam, file), x,y,w,h])
 
     return data_list
+
+def process_data(img_path):
+    img = cv2.imread(img_path)
+
+    return img
+
+def compose_dataset(df):
+    data = []
+    y_train = df[['x', 'y', 'w', 'h']]
+
+    for img_path, x1, y1, w1, h1 in df.values:
+        data.append(process_data(img_path))
+
+    y_train = y_train.reset_index(drop = True)
+
+    return np.array(data), y_train
 
 def plot_hist(history):
     '''
