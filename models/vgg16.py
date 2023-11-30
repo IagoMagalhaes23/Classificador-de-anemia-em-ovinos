@@ -20,7 +20,7 @@ def vgg16():
     inputs = keras.Input(shape=(224, 224, 3))
     x = base_model(inputs, training=False)
     x = keras.layers.GlobalAveragePooling2D()(x)
-    outputs = keras.layers.Dense(1)(x)
+    outputs = keras.layers.Dense(2)(x)
     model = keras.Model(inputs, outputs)
 
     model.compile(loss=keras.losses.BinaryCrossentropy(from_logits=True), metrics=[keras.metrics.BinaryAccuracy()])

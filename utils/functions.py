@@ -29,11 +29,10 @@ def readFiles(caminhos):
     '''
     data_list = []
 
-    for caminho, _, arquivo in os.walk(caminhos):
+    for caminho, _, arquivo in os.walk(df):
         cam = str(caminho.replace("\\", "/"))+"/"
         for file in arquivo:
-           
-            data_list.append([os.path.join(cam, file), x,y,w,h])
+            data_list.append([os.path.join(cam, file), file[0]])
 
     return data_list
 
@@ -42,15 +41,19 @@ def process_data(img_path):
     return img
 
 def compose_dataset(df):
+    '''
+        Função para compor o dataset de treino, teste e validação
+        :param df: recebe um dataframe com o endereço da imagem e seu label
+        :return: retorna dois np.arrays com a imagem e o label
+    '''
     data = []
-    classes = []
+    labels = []
 
-    for img_path, x1, y1, w1, h1 in df.values:
+    for img_path, label in df.values:
         data.append(process_data(img_path))
+        labels.append(label)
 
-    y_train = y_train.reset_index(drop = True)
-
-    return np.array(data), y_train
+    return np.array(data), np.array(labels)
 
 def plot_hist(history):
     '''
