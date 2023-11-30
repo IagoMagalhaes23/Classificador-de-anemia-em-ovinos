@@ -3,6 +3,9 @@
     Data: 30/11/2023
     Descrição:
         - Implementa a rede InceptionV3
+        - !wget --no-check-certificate \
+    https://storage.googleapis.com/mledu-datasets/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5 \
+    -O /tmp/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5
 '''
 
 from tensorflow.keras.applications.inception_v3 import InceptionV3
