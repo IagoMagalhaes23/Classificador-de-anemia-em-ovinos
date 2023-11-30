@@ -29,7 +29,7 @@ def readFiles(caminhos):
     '''
     data_list = []
 
-    for caminho, _, arquivo in os.walk(df):
+    for caminho, _, arquivo in os.walk(caminhos):
         cam = str(caminho.replace("\\", "/"))+"/"
         for file in arquivo:
             data_list.append([os.path.join(cam, file), file[0]])
