@@ -32,25 +32,18 @@ def readFiles(caminhos):
     for caminho, _, arquivo in os.walk(caminhos):
         cam = str(caminho.replace("\\", "/"))+"/"
         for file in arquivo:
-            coordernadas = file.split('.')
-            boundbox = coordernadas[0].split('_')
-            x = boundbox[1]
-            y = boundbox[2]
-            w = boundbox[3]
-            h = boundbox[4]
-            # print(x,y,w,h)
+           
             data_list.append([os.path.join(cam, file), x,y,w,h])
 
     return data_list
 
 def process_data(img_path):
     img = cv2.imread(img_path)
-
     return img
 
 def compose_dataset(df):
     data = []
-    y_train = df[['x', 'y', 'w', 'h']]
+    classes = []
 
     for img_path, x1, y1, w1, h1 in df.values:
         data.append(process_data(img_path))

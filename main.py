@@ -14,7 +14,7 @@ import numpy as np
 # from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-# from models import vgg16
+from models import vgg16
 from utils import functions as fct
 
 caminho_train = 'dataset/train/Mucosa'
@@ -46,57 +46,43 @@ print('Treino shape: {}, Labels shape: {}'.format(X_train.shape, y_train.shape))
 print('Teste shape: {}, Labels shape: {}'.format(X_test.shape, y_test.shape))
 print('------------------------------------------------------------------------')
 
-# datagen = ImageDataGenerator(
-#     rotation_range=10,
-#     zoom_range = 0.1,
-#     width_shift_range=0.1,
-#     height_shift_range=0.1,
-#     horizontal_flip=False,
-#     vertical_flip=False
-# )
 
-# datagen.fit(X_train)
-# datagen.fit(X_test)
 
-# print('----------------------------- SHAPES LABEL -----------------------------')
-# print('Treino shape: {}, Labels shape: {}'.format(X_train.shape, y_train.shape))
-# print('Teste shape: {}, Labels shape: {}'.format(X_test.shape, y_test.shape))
-# print('------------------------------------------------------------------------')
 
-# y_train = to_categorical(y_train)
-# y_test = to_categorical(y_test)
-# y_valid = to_categorical(y_valid)
 
-from tensorflow.keras import layers
-from tensorflow.keras.models import Model
-from tensorflow.keras.applications import VGG16
 
-# Carregar a VGGNet pré-treinada (excluindo a camada totalmente conectada no topo)
-vgg_model = VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+from tensorflow.keras.layers import Conv2D, Flatten, Dense
+from tensorflow import keras
 
-# Congelar os pesos da VGGNet para que eles não sejam atualizados durante o treinamento
-for layer in vgg_model.layers:
-    layer.trainable = False
+# Suponha que você tenha uma camada de saída convolucional chamada "saida_conv"
+# Substitua isso com a camada de saída real do seu modelo
 
-# Adicionar camadas de detecção no topo da VGGNet
-x = vgg_model.output
-x = layers.GlobalAveragePooling2D()(x)
-x = layers.Dense(512, activation='relu')(x)
-x = layers.Dense(256, activation='relu')(x)
+# Saída da camada convolucional
+saida_conv = keras.applications.VGG16(
+        weights='imagenet',
+        input_shape=(224, 224, 3),
+        include_top=False)
 
-# Adapte o número de saídas à sua tarefa de detecção
-# No exemplo abaixo, assumimos uma tarefa de detecção com 4 classes
-num_classes = 4
-detecao = layers.Dense(num_classes, activation='softmax')(x)
+# Adiciona camadas densas para prever as coordenadas da bounding box
+saida_flatten = Flatten()(saida_conv)
+camada_total = Dense(128, activation='relu')(saida_flatten)
+camada_total = Dense(64, activation='relu')(camada_total)
 
-# Criar o modelo final
-modelo_final = Model(inputs=vgg_model.input, outputs=detecao)
+# Camadas para prever as coordenadas (x, y, largura, altura)
+saida_x = Dense(1, activation='sigmoid', name='saida_x')(camada_total)
+saida_y = Dense(1, activation='sigmoid', name='saida_y')(camada_total)
+saida_largura = Dense(1, activation='sigmoid', name='saida_largura')(camada_total)
+saida_altura = Dense(1, activation='sigmoid', name='saida_altura')(camada_total)
 
-# Compilar o modelo e prepará-lo para o treinamento
-modelo_final.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+# Criação do modelo
+modelo = Model(inputs=entrada, outputs=[saida_x, saida_y, saida_largura, saida_altura])
 
-# Exibir a arquitetura do modelo
-modelo_final.summary()
+# Compilação do modelo (usando uma função de perda adequada, como mean squared error)
+modelo.compile(optimizer='adam', loss={'saida_x': 'mean_squared_error',
+                                       'saida_y': 'mean_squared_error',
+                                       'saida_largura': 'mean_squared_error',
+                                       'saida_altura': 'mean_squared_error'})
 
-modelo_final.fit(X_train, y_train,
-           epochs=5, batch_size=4, validation_split=0.2)
+# Treinamento do modelo (substitua os dados de treinamento e os rótulos com seus próprios dados)
+modelo.fit(x=X_train, y={y_train[['x', 'y', 'w', 'h']]},
+            epochs=5, batch_size=4)

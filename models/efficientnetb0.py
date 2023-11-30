@@ -16,8 +16,6 @@ def efficientNetB0():
 
     inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, 1))
 
-    # Using model without transfer learning
-
     outputs = EfficientNetB0(include_top=True, weights=None, classes=NUM_CLASSES)(inputs)
 
     model = keras.Model(inputs, outputs)
