@@ -36,24 +36,23 @@ def readFiles(caminhos):
 
     return data_list
 
-def process_data(img_path):
+def process_data(img_path, size):
     img = cv2.imread(img_path)
+    img = cv2.resize(img, (size, size))
     return img
 
 def compose_dataset(df):
     '''
         Função para compor o dataset de treino, teste e validação
-        :param df: recebe um dataframe com o endereço da imagem e seu label
-        :return: retorna dois np.arrays com a imagem e o label
+        :param df: recebe um dataframe com o endereço da imagem
+        :return: retorna um np.array com a imagem
     '''
     data = []
-    labels = []
 
-    for img_path, label in df.values:
+    for img_path in df.values:
         data.append(process_data(img_path))
-        labels.append(label)
 
-    return np.array(data), np.array(labels)
+    return np.array(data)
 
 def plot_hist(history):
     '''
