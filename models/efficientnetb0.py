@@ -20,6 +20,6 @@ def efficientNetB0():
 
     model = keras.Model(inputs, outputs)
 
-    model.compile(optimizer="adam", loss=keras.losses.BinaryCrossentropy(from_logits=True), metrics=[keras.metrics.BinaryAccuracy()])
+    model.compile(optimizer="adam", loss='categorical_crossentropy', metrics=['accuracy'])
 
     return model

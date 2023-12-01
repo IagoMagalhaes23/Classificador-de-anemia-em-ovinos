@@ -41,7 +41,7 @@ def inceptionV3():
     model.summary()
 
     model.compile(optimizer = RMSprop(learning_rate=0.0001), 
-              loss = 'binary_crossentropy', 
+              loss='categorical_crossentropy',
               metrics = ['accuracy'])
     
     return model

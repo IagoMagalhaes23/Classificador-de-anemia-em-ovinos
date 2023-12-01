@@ -23,6 +23,6 @@ def vgg16():
     outputs = keras.layers.Dense(2)(x)
     model = keras.Model(inputs, outputs)
 
-    model.compile(loss=keras.losses.BinaryCrossentropy(from_logits=True), metrics=[keras.metrics.BinaryAccuracy()])
+    model.compile(loss='categorical_crossentropy', metrics=['accuracy'])
 
     return model
