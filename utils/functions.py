@@ -63,7 +63,7 @@ def plot_hist(history):
     plt.subplot(2,2,1)
     plt.plot(history.history['accuracy'])
     plt.plot(history.history['val_accuracy'])
-    plt.ylim(0.8,1)
+    plt.ylim(0.2,1)
     plt.title('Acurácia do modelo')
     plt.ylabel('acurácia')
     plt.xlabel('épocas')
