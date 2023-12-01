@@ -41,7 +41,7 @@ def process_data(img_path, size):
     img = cv2.resize(img, (size, size))
     return img
 
-def compose_dataset(df):
+def compose_dataset(df, size):
     '''
         Função para compor o dataset de treino, teste e validação
         :param df: recebe um dataframe com o endereço da imagem
@@ -50,7 +50,7 @@ def compose_dataset(df):
     data = []
 
     for img_path in df.values:
-        data.append(process_data(img_path))
+        data.append(process_data(img_path, size))
 
     return np.array(data)
 
