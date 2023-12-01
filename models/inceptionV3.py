@@ -16,7 +16,7 @@ from tensorflow.keras import Model
 def inceptionV3():
     local_weights_file = '/tmp/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5'
 
-    pre_trained_model = InceptionV3(input_shape = (150, 150, 3), 
+    pre_trained_model = InceptionV3(input_shape = (224, 224, 3), 
                                     include_top = False, 
                                     weights = None)
 
