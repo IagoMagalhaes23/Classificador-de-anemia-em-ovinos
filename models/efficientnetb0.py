@@ -10,7 +10,7 @@ from tensorflow.keras import layers
 from tensorflow.keras.applications import EfficientNetB0
 
 def efficientNetB0():
-    NUM_CLASSES = 1
+    NUM_CLASSES = 2
     IMG_SIZE = 224
     size = (IMG_SIZE, IMG_SIZE)
 
