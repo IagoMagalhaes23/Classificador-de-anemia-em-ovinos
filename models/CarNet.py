@@ -9,7 +9,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.applications import EfficientNetB0
 
-def efficientNetModificada():
+def carnet():
     NUM_CLASSES = 1
     IMG_SIZE = 224
     size = (IMG_SIZE, IMG_SIZE)
