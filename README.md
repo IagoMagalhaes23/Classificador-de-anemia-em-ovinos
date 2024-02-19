@@ -26,6 +26,9 @@ de acuracia de 71.4%, precisão de 69.7% e recall de 69.7%.
 - Iception V3
 - VGGNet 16
 
+## Arquitetura CarNet
+![image](https://github.com/IagoMagalhaes23/Classificador-de-anemia-em-ovinos/assets/65053026/123689b7-c311-42ad-8b54-62539f272470)
+
 ## Resultados
 Para a analise dos resultados obtidos por cada rede CNN é utilizado valor das métricas de
 avaliação. Um conjunto diferente das imagens de treinamento foi utilizado para validar os modelos. Para fins de comparação, cada resultado e apresentado na tabela 1.
