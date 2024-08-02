@@ -1,7 +1,7 @@
 # Classificador de anemia em ovinos
 
 ## Autores
-Iago M. de Mesquita, Francilandio L. Serafim, Vanessa C. do Nascimento, Raniery A. Vasconcelos, Savio A. Gomes, Ialis Cavalcante de P. Júnior e Fischer J. Ferreira
+Iago M. de Mesquita, Francilandio L. Serafim, Vanessa C. do Nascimento, Raniery A. Vasconcelos, Savio A. Gomes, Ialis Cavalcante de P. Júnior e Fischer J. Ferreira.
 
 ## Introdução
 O nordeste brasileiro contem cerca de 60% do rebanho de ovinos do país. Em um setor tão produtivo na região, conseguir identificar e tratar patologias e de fundamental
